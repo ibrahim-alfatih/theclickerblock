@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whack-a-Mole Game</title>
+  <style>
+    body {
+      font-family: "Orbitron", sans-serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+              display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        flex-direction: column;
+    }
+
+        #game-board {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        grid-gap: 50px;
+    }
+
+    .hole {
+        width: 100px;
+        height: 100px;
+        border: 10px solid purple;
+        background-color: white;
+        position: relative;   
+    }
+
+    .hole_even {
+        border: 10px solid  blue;
+    }
+
+    .mole {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(90deg, purple 50%, blue 50%);
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: none;
+    }
+
+  </style>
+</head>
+
+<body>
+  <h1 style="font-size: 50px; text-align: center; color: blueviolet;">The cliker blok</h1>
+  <div id="game-board" >
+    <!-- Lubang untuk tikus akan muncul di sini -->
+  </div>
+  <p style="font-size: 40px;"> 
+    <span style="color: blue;">y</span>
+    <span style="color: purple;">o</span>
+    <span style="color: blue;">u</span>
+    <span style="color: purple;">r</span>
+    <span style="color: blue;">&nbsp;</span>
+    <span style="color: purple;">s</span>
+    <span style="color: blue;">c</span>
+    <span style="color: purple;">o</span>
+    <span style="color: blue;">r</span>
+    <span style="color: purple;">e</span>
+    <span style="color: blue;">:</span>
+    <span style="color: blue;">&nbsp;</span>
+    <span id="score" style="color: blue;">0</span>
+    </p>
+  <script>
+    const gameBoard = document.getElementById('game-board');
+      const scoreDisplay = document.getElementById('score');
+      let score = 0;
+
+      for (let i = 0; i < 9; i++) {
+        const hole = document.createElement('div');
+        hole.classList.add('hole');
+        if(i%2 === 1) {
+          hole.classList.add('hole_even');
+        }
+        const mole = document.createElement('div');
+        mole.classList.add('mole');
+        hole.appendChild(mole);
+        gameBoard.appendChild(hole);
+      }
+
+      const moles = document.querySelectorAll('.mole');
+
+      function randomMole() {
+        moles.forEach(mole => mole.style.display = 'none');
+        const randomIndex = Math.floor(Math.random() * moles.length);
+        moles[randomIndex].style.display = 'block';
+      }
+
+      function startGame() {
+        setInterval(randomMole, 1000);
+      }
+
+      moles.forEach(mole => {
+        mole.addEventListener('click', () => {
+          score++;
+          scoreDisplay.textContent = score;
+          mole.style.display = 'none';
+        });
+      });
+
+      startGame();
+
+  </script>
+</body>
+
+</html>
